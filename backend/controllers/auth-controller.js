@@ -104,7 +104,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
     throw new ValidationError("Password must be at least 6 characters.");
   }
 
-  const { token: resetToken, hashedToken } = generateResetToken();
+  const { token: resetToken, hashedToken } = generateResetToken(token);
 
   const user = await prisma.user.findFirst({
     where: {

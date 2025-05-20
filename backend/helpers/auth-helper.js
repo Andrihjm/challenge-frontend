@@ -38,7 +38,7 @@ export const handleForgotPassword = async (req, res) => {
       },
     });
 
-    const resetUrl = `${process.env.PUBLIC_URL}/reset-password/${resetToken}`;
+    const resetUrl = `${process.env.PUBLIC_URL}/auth/reset-password/${resetToken}`;
 
     await sendResetURL(userExists.email, userExists.name, resetUrl);
 
