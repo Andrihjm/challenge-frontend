@@ -1,10 +1,10 @@
-import Router from "../routes/router";
+import AppRouter from "../routes/app-router";
 
 const LayoutApp = () => {
   return (
     <>
       <main>
-        <Router />
+        <AppRouter />
       </main>
     </>
   );
