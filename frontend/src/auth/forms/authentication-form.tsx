@@ -28,6 +28,7 @@ const AuthenticationForm = ({ type = "sign-in" }: AuthenticationFormProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<SignInType>();
 
   const [signup, { isLoading: isSignupLoading }] = useSignupMutation();
@@ -43,9 +44,12 @@ const AuthenticationForm = ({ type = "sign-in" }: AuthenticationFormProps) => {
         dispatch(setCredentials(user));
         navigate("/");
       }
-    } catch (error) {
-      setServerError("Something went wrong");
-      console.log(error);
+    } catch (error: any) {
+      if (error?.data?.message) {
+        setError("password", { type: "server", message: error.data.message });
+      } else {
+        setServerError("Something went wrong");
+      }
     }
   };
 

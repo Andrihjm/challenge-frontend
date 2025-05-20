@@ -4,6 +4,7 @@ export type SignInType = {
   password: string;
 };
 
-export type ForgotPasswordFormProps = {
-  email: string;
+export type SettingPasswordTypes = {
+  email?: string;
+  password?: string;
 };
