@@ -126,7 +126,7 @@ const AuthenticationForm = ({ type = "sign-in" }: AuthenticationFormProps) => {
             />
             Remember me
           </label>
-          <Link to="/forgot-password" className="text-blue">
+          <Link to="/auth/forgot-password" className="text-blue">
             Forgot password
           </Link>
         </div>

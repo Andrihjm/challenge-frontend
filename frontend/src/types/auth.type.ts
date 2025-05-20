@@ -3,3 +3,7 @@ export type SignInType = {
   email: string;
   password: string;
 };
+
+export type ForgotPasswordFormProps = {
+  email: string;
+};
