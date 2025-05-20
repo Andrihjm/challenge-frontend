@@ -3,11 +3,17 @@ import { asyncHandler } from "../middlewares/async-handler.js";
 import { ValidationError } from "../utils/app-error.js";
 import generateToken from "../utils/generate-token.js";
 import { comparePassword, hassPassword } from "../utils/password.js";
+import { generateResetToken } from "../utils/token.js";
+import { handleForgotPassword } from "../helpers/auth-helper.js";
 
 export const userSignUp = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
     throw new ValidationError("Please fill all the inputs.");
+  }
+
+  if (password.length < 6) {
+    throw new ValidationError("Password must be at least 6 characters.");
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,32 +63,78 @@ export const userSignIn = asyncHandler(async (req, res) => {
     throw new ValidationError("Please fill all the inputs.");
   }
 
-  const existingUser = await prisma.user.findUnique({
+  const userExists = await prisma.user.findUnique({
     where: {
       email,
     },
   });
 
-  if (
-    !existingUser ||
-    !(await comparePassword(password, existingUser.password))
-  ) {
+  if (!userExists || !(await comparePassword(password, userExists.password))) {
     throw new ValidationError("Invalid email or password");
   }
 
-  // generate Token
-  generateToken(res, existingUser.id);
+  generateToken(res, userExists.id);
 
   return res.status(200).json({
     status: 200,
     message: "User signed in successfully",
     data: {
-      id: existingUser.id,
-      name: existingUser.name,
-      email: existingUser.email,
-      createdAt: existingUser.createdAt,
-      updatedAt: existingUser.updatedAt,
+      id: userExists.id,
+      name: userExists.name,
+      email: userExists.email,
+      createdAt: userExists.createdAt,
+      updatedAt: userExists.updatedAt,
     },
+  });
+});
+
+export const forgotPassword = asyncHandler(async (req, res) => {
+  await handleForgotPassword(req, res);
+});
+
+export const resetPassword = asyncHandler(async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  if (!token) {
+    throw new ValidationError("Reset token is required.");
+  }
+
+  if (!password || password.length < 6) {
+    throw new ValidationError("Password must be at least 6 characters.");
+  }
+
+  const { token: resetToken, hashedToken } = generateResetToken();
+
+  const user = await prisma.user.findFirst({
+    where: {
+      resetToken: hashedToken,
+      resetTokenExpiry: {
+        gte: new Date(),
+      },
+    },
+  });
+
+  if (!user) {
+    throw new ValidationError("Invalid or expired reset token");
+  }
+
+  const hashedPassword = await hassPassword(password, 10);
+
+  await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      password: hashedPassword,
+      resetToken: null,
+      resetTokenExpiry: null,
+    },
+  });
+
+  res.status(200).json({
+    status: 200,
+    message: "Password has been reset successfully",
   });
 });
 
