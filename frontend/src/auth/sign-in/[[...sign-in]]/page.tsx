@@ -3,8 +3,11 @@ import GetPathname from "../../../components/ui/get-pathname";
 import Separator from "../../../components/ui/separator";
 import SocialLogin from "../../components/social-login";
 import AuthenticationForm from "../../forms/authentication-form";
+import { useNavigateURL } from "../../../hooks/auth-hook";
 
 const SignIn = () => {
+  useNavigateURL("guest");
+
   return (
     <div className="flex min-h-screen w-full items-center justify-center">
       <div className="flex flex-col gap-8 rounded-lg bg-white p-8 shadow md:w-[480px]">
