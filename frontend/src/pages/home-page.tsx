@@ -1,33 +1,22 @@
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useSignoutMutation } from "../redux/api/user-api-slice";
-import { signout } from "../redux/features/auth/auth-feature-slice";
 import { useNavigateURL } from "../hooks/auth-hook";
+import Navigation from "../components/shared/navigation";
+import Header from "../components/shared/header";
+import ListSoal from "../components/shared/list-soal";
 
 const HomePage = () => {
   useNavigateURL("protected");
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [signoutApiCall] = useSignoutMutation();
-
-  const logoutHandler = async () => {
-    try {
-      await signoutApiCall({}).unwrap();
-      dispatch(signout());
-      navigate("/auth/sign-in");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
-    <div>
-      <div onClick={logoutHandler} className="cursor-pointer">
-        log out
+    <>
+      <div className="p-4">
+        <Navigation />
+        <Header />
       </div>
-    </div>
+
+      <div className="">
+        <ListSoal />
+      </div>
+    </>
   );
 };
 

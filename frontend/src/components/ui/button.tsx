@@ -18,7 +18,7 @@ const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`w-full min-w-max cursor-pointer rounded-md px-4 py-2 text-sm text-white ${className}`}
+      className={`min-w-max cursor-pointer rounded-md px-4 py-2 text-sm text-white ${className}`}
     >
       {children}
     </button>

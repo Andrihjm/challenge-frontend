@@ -9,7 +9,7 @@ const SignIn = () => {
   useNavigateURL("guest");
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center">
+    <div className="flex min-h-screen w-full items-center justify-center bg-[#f1f1f1]">
       <div className="flex flex-col gap-8 rounded-lg bg-white p-8 shadow md:w-[480px]">
         <div className="text-center">
           <h3 className="flex justify-center gap-2 text-2xl font-semibold">
