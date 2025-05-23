@@ -14,7 +14,7 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "https://quiz-app-green-five.vercel.app"],
     allowedHeaders: ["Authorization", "Content-Type"],
     credentials: true,
   })

@@ -5,12 +5,13 @@
   "private": true,
   "scripts": {
     "backend": "nodemon backend/index.js",
-    "frontend": "npm run dev --prefix frontend",
-    "dev": "concurrently \"bun run dev\" \"bun run backend"
+    "frontend": "bun run dev --prefix frontend",
+    "dev": "concurrently \"bun run frontend\" \"bun run backend"
   },
   "devDependencies": {
     "@prisma/client": "^6.8.2",
     "@types/bun": "latest",
+    "concurrently": "^9.1.2",
     "prisma": "^6.8.2"
   },
   "peerDependencies": {
