@@ -7,11 +7,19 @@ import ResetPassword from "../auth/password-settings/reset-password";
 import DetailQuiz from "../pages/detail-quiz";
 import QuizPlay from "../pages/quiz-play";
 import HasilQuiz from "../pages/hasil-quiz";
+import ProtectedRoute from "../components/ui/protected-route";
 
 const AppRouter = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
+        }
+      />
 
       {/* auth-router */}
       <Route path="/auth/sign-in" element={<SignIn />} />
